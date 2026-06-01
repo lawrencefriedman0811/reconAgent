@@ -43,6 +43,8 @@ ReconAgent/
 │   │   └── skills/            # SKILL.md documents
 │   │       ├── k2-part2-recon/
 │   │       └── k2-partx-recon/
+│   ├── copilot_agent/         # MCP server for Copilot agent orchestration
+│   │   └── mcp_server.py
 │   ├── writeback/             # Write results back to workbook
 │   └── etl/                   # Data transformation utilities
 │
@@ -61,6 +63,18 @@ ReconAgent/
 │
 ├── scripts/
 │   └── main.py                # FastAPI server entry point
+│
+├── addin/                     # Excel Office add-in (manifest + web assets)
+│   ├── manifest.xml           # Sideload manifest with ribbon button
+│   └── web/
+│       ├── taskpane.html      # Add-in task pane UI
+│       └── assets/
+│
+├── .github/
+│   └── chatmodes/
+│       └── recon-agent.chatmode.md   # Selectable Copilot chat mode
+├── .vscode/
+│   └── mcp.json               # MCP server registration for local Copilot
 │
 ├── logs/                      # Runtime logs (git-ignored)
 ├── requirements.txt
@@ -88,6 +102,64 @@ ReconAgent/
    ```bash
    python scripts/main.py
    ```
+
+## Excel Add-in (Ribbon Button)
+
+This repo includes an Excel Office Add-in scaffold with a Home ribbon button:
+
+- Manifest: `addin/manifest.xml`
+- Task pane UI: `addin/web/taskpane.html`
+- Static add-in assets are served by FastAPI at `/addin/*`
+
+### Sideload steps
+
+1. Start the API server:
+   ```bash
+   python scripts/main.py
+   ```
+
+2. In Excel (desktop), sideload `addin/manifest.xml`:
+   - **Insert** → **My Add-ins** → **Manage My Add-ins** → **Upload My Add-in**
+   - You can also use the served manifest URL: `http://localhost:8000/addin/manifest.xml`
+
+3. Open a workbook and click **Home → ReconAgent → Open ReconAgent**.
+
+4. In the task pane:
+   - run **Reconcile** (`POST /reconcile`)
+   - run **Writeback** (`POST /writeback`)
+   - run **Validate** (`POST /validate`)
+
+> Note: This manifest is configured for `http://localhost:8000`. If you host the API elsewhere, update URLs in `addin/manifest.xml`.
+
+## Copilot Agent Mode ("Run Reconciliation")
+
+This repo now includes an MCP server and chat mode so users can select an agent
+and say **"run reconciliation"** to trigger the HTTP request.
+
+### Included files
+
+- MCP server: `src/copilot_agent/mcp_server.py`
+  - `run_reconciliation` → `POST /reconcile`
+  - `writeback_reconciliation` → `POST /writeback`
+  - `validate_reconciliation` → `POST /validate`
+- VS Code MCP config: `.vscode/mcp.json`
+- Agent/chat mode: `.github/chatmodes/recon-agent.chatmode.md`
+
+### Setup
+
+1. Start the API backend:
+   ```bash
+   python scripts/main.py
+   ```
+2. Ensure dependencies are installed (includes `mcp`):
+   ```bash
+   pip install -r requirements.txt
+   ```
+3. In VS Code Copilot Chat, select chat mode **recon-agent**.
+4. Ask:
+   - `run reconciliation for entity TPG RISE period 2025-01-31`
+
+Copilot will call the `run_reconciliation` MCP tool, which sends the HTTP request to your backend.
 
 ## API Endpoints
 

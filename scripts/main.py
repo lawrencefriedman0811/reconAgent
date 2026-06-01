@@ -3,9 +3,11 @@
 import asyncio
 import logging
 import os
+from pathlib import Path
 from typing import Any
 
 from fastapi import FastAPI, HTTPException
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
 from config import settings
@@ -23,6 +25,12 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 app = FastAPI(title="ReconAgent", version="1.0.0")
+BASE_DIR = Path(__file__).resolve().parent.parent
+ADDIN_DIR = BASE_DIR / "addin"
+ADDIN_WEB_DIR = ADDIN_DIR / "web"
+
+if ADDIN_WEB_DIR.exists():
+    app.mount("/addin", StaticFiles(directory=str(ADDIN_WEB_DIR)), name="addin-web")
 
 
 class ReconcileRequest(BaseModel):

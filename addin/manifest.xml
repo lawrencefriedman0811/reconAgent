@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<OfficeApp
+  xmlns="http://schemas.microsoft.com/office/appforoffice/1.1"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:bt="http://schemas.microsoft.com/office/officeappbasictypes/1.0"
+  xmlns:ov="http://schemas.microsoft.com/office/taskpaneappversionoverrides"
+  xsi:type="TaskPaneApp">
+  <Id>84f4d6d7-1846-4a0d-b467-0fd7d4f5edbd</Id>
+  <Version>1.0.0.0</Version>
+  <ProviderName>ReconAgent</ProviderName>
+  <DefaultLocale>en-US</DefaultLocale>
+  <DisplayName DefaultValue="ReconAgent" />
+  <Description DefaultValue="Run reconciliation flow from an Excel ribbon button." />
+  <IconUrl DefaultValue="http://localhost:8000/addin/assets/icon-32.svg" />
+  <HighResolutionIconUrl DefaultValue="http://localhost:8000/addin/assets/icon-80.svg" />
+  <SupportUrl DefaultValue="http://localhost:8000/addin/taskpane.html" />
+  <AppDomains>
+    <AppDomain>http://localhost:8000</AppDomain>
+  </AppDomains>
+  <Hosts>
+    <Host Name="Workbook" />
+  </Hosts>
+  <Requirements>
+    <Sets DefaultMinVersion="1.1">
+      <Set Name="ExcelApi" MinVersion="1.1" />
+    </Sets>
+  </Requirements>
+  <DefaultSettings>
+    <SourceLocation DefaultValue="http://localhost:8000/addin/taskpane.html" />
+  </DefaultSettings>
+  <Permissions>ReadWriteDocument</Permissions>
+
+  <VersionOverrides
+    xmlns="http://schemas.microsoft.com/office/taskpaneappversionoverrides"
+    xsi:type="VersionOverridesV1_0">
+    <Hosts>
+      <Host xsi:type="Workbook">
+        <DesktopFormFactor>
+          <GetStarted>
+            <Title resid="GetStarted.Title" />
+            <Description resid="GetStarted.Description" />
+            <LearnMoreUrl resid="GetStarted.LearnMoreUrl" />
+          </GetStarted>
+          <FunctionFile resid="Commands.Url" />
+          <ExtensionPoint xsi:type="PrimaryCommandSurface">
+            <OfficeTab id="TabHome">
+              <Group id="ReconAgent.Group">
+                <Label resid="ReconAgent.GroupLabel" />
+                <Icon>
+                  <bt:Image size="16" resid="Icon.16x16" />
+                  <bt:Image size="32" resid="Icon.32x32" />
+                  <bt:Image size="80" resid="Icon.80x80" />
+                </Icon>
+                <Control xsi:type="Button" id="ReconAgent.OpenPane">
+                  <Label resid="ReconAgent.ButtonLabel" />
+                  <Supertip>
+                    <Title resid="ReconAgent.ButtonLabel" />
+                    <Description resid="ReconAgent.ButtonTooltip" />
+                  </Supertip>
+                  <Icon>
+                    <bt:Image size="16" resid="Icon.16x16" />
+                    <bt:Image size="32" resid="Icon.32x32" />
+                    <bt:Image size="80" resid="Icon.80x80" />
+                  </Icon>
+                  <Action xsi:type="ShowTaskpane">
+                    <TaskpaneId>ReconAgentTaskpane</TaskpaneId>
+                    <SourceLocation resid="Taskpane.Url" />
+                  </Action>
+                </Control>
+              </Group>
+            </OfficeTab>
+          </ExtensionPoint>
+        </DesktopFormFactor>
+      </Host>
+    </Hosts>
+    <Resources>
+      <bt:Images>
+        <bt:Image id="Icon.16x16" DefaultValue="http://localhost:8000/addin/assets/icon-16.svg" />
+        <bt:Image id="Icon.32x32" DefaultValue="http://localhost:8000/addin/assets/icon-32.svg" />
+        <bt:Image id="Icon.80x80" DefaultValue="http://localhost:8000/addin/assets/icon-80.svg" />
+      </bt:Images>
+      <bt:Urls>
+        <bt:Url id="GetStarted.LearnMoreUrl" DefaultValue="https://learn.microsoft.com/office/dev/add-ins/" />
+        <bt:Url id="Commands.Url" DefaultValue="http://localhost:8000/addin/commands.html" />
+        <bt:Url id="Taskpane.Url" DefaultValue="http://localhost:8000/addin/taskpane.html" />
+      </bt:Urls>
+      <bt:ShortStrings>
+        <bt:String id="GetStarted.Title" DefaultValue="ReconAgent add-in loaded" />
+        <bt:String id="ReconAgent.GroupLabel" DefaultValue="ReconAgent" />
+        <bt:String id="ReconAgent.ButtonLabel" DefaultValue="Open ReconAgent" />
+      </bt:ShortStrings>
+      <bt:LongStrings>
+        <bt:String id="GetStarted.Description" DefaultValue="Use ReconAgent ribbon button to run reconcile, writeback, and validate." />
+        <bt:String id="ReconAgent.ButtonTooltip" DefaultValue="Open the ReconAgent task pane." />
+      </bt:LongStrings>
+    </Resources>
+  </VersionOverrides>
+</OfficeApp>
