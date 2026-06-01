@@ -95,7 +95,7 @@ ReconAgent/
 Run the deterministic pre-pass.
 ```json
 {
-  "entity": "TPG RISE",
+  "entity": "Test Fund",
   "period": "2025-01-31"
 }
 ```
@@ -105,7 +105,7 @@ Response: `{ "success": true, "data": { "confident": [...], "exceptions": [...],
 Validate after LLM proposes changes.
 ```json
 {
-  "entity": "TPG RISE",
+  "entity": "Test Fund",
   "period": "2025-01-31"
 }
 ```
@@ -123,7 +123,7 @@ Supports three payload formats:
     { "sheet": "(K.01) Sch K to K2 Control", "cell": "M18", "value": "7 - Ordinary dividends (exclude amount on line 8)" },
     ...
   ],
-  "entity": "TPG RISE",
+  "entity": "Test Fund",
   "period": "2025-01-31"
 }
 ```
