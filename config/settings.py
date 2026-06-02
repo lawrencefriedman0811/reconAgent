@@ -5,17 +5,6 @@ from dataclasses import dataclass
 
 
 @dataclass
-class GraphConfig:
-    """Microsoft Graph API configuration."""
-
-    client_id: str = os.getenv("GRAPH_CLIENT_ID", "")
-    tenant_id: str = os.getenv("GRAPH_TENANT_ID", "")
-    client_secret: str = os.getenv("GRAPH_CLIENT_SECRET", "")
-    site_id: str = os.getenv("GRAPH_SITE_ID", "")
-    workbook_id: str = os.getenv("GRAPH_WORKBOOK_ID", "")
-
-
-@dataclass
 class LoggingConfig:
     """Logging configuration."""
 
@@ -25,5 +14,4 @@ class LoggingConfig:
 
 
 # Load configs from environment
-graph = GraphConfig()
 logging_cfg = LoggingConfig()

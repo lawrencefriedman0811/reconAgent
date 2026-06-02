@@ -64,12 +64,6 @@ ReconAgent/
 ├── scripts/
 │   └── main.py                # FastAPI server entry point
 │
-├── addin/                     # Excel Office add-in (manifest + web assets)
-│   ├── manifest.xml           # Sideload manifest with ribbon button
-│   └── web/
-│       ├── taskpane.html      # Add-in task pane UI
-│       └── assets/
-│
 ├── .github/
 │   └── chatmodes/
 │       └── recon-agent.chatmode.md   # Selectable Copilot chat mode
@@ -102,34 +96,6 @@ ReconAgent/
    ```bash
    python scripts/main.py
    ```
-
-## Excel Add-in (Ribbon Button)
-
-This repo includes an Excel Office Add-in scaffold with a Home ribbon button:
-
-- Manifest: `addin/manifest.xml`
-- Task pane UI: `addin/web/taskpane.html`
-- Static add-in assets are served by FastAPI at `/addin/*`
-
-### Sideload steps
-
-1. Start the API server:
-   ```bash
-   python scripts/main.py
-   ```
-
-2. In Excel (desktop), sideload `addin/manifest.xml`:
-   - **Insert** → **My Add-ins** → **Manage My Add-ins** → **Upload My Add-in**
-   - You can also use the served manifest URL: `http://localhost:8000/addin/manifest.xml`
-
-3. Open a workbook and click **Home → ReconAgent → Open ReconAgent**.
-
-4. In the task pane:
-   - run **Reconcile** (`POST /reconcile`)
-   - run **Writeback** (`POST /writeback`)
-   - run **Validate** (`POST /validate`)
-
-> Note: This manifest is configured for `http://localhost:8000`. If you host the API elsewhere, update URLs in `addin/manifest.xml`.
 
 ## Copilot Agent Mode ("Run Reconciliation")
 
@@ -167,7 +133,7 @@ Copilot will call the `run_reconciliation` MCP tool, which sends the HTTP reques
 Run the deterministic pre-pass.
 ```json
 {
-  "entity": "Test Fund",
+  "entity": "TPG RISE",
   "period": "2025-01-31"
 }
 ```
@@ -177,7 +143,7 @@ Response: `{ "success": true, "data": { "confident": [...], "exceptions": [...],
 Validate after LLM proposes changes.
 ```json
 {
-  "entity": "Test Fund",
+  "entity": "TPG RISE",
   "period": "2025-01-31"
 }
 ```
@@ -195,7 +161,7 @@ Supports three payload formats:
     { "sheet": "(K.01) Sch K to K2 Control", "cell": "M18", "value": "7 - Ordinary dividends (exclude amount on line 8)" },
     ...
   ],
-  "entity": "Test Fund",
+  "entity": "TPG RISE",
   "period": "2025-01-31"
 }
 ```
